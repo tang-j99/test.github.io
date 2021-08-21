@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>糖糖记事本</title>
+    <style> 
+    #todoapp{
+        width: 100%;
+        cursor: pointer;  
+        font-family:cursive;
+    }
+        .header>h1{
+            display: block;
+            height: 40px;
+            width: 400px;
+           margin: 10px auto;
+            color: rgb(134, 156, 139);
+            line-height:40px ;
+            text-align: center;
+           
+        }
+        .main{
+            width: 400px;
+            height:200px;   
+            left: 50%;
+        margin-left: -200px;
+        margin: 0 auto;
+
+        }
+        .main>input{ 
+            height: 40px;
+            width: 391px;
+            padding-left:7px;
+            border: 1px solid rgb(92, 82, 82);
+            font-size: 18px;
+            line-height:40px ;
+            text-align: left;
+            border-radius: 5%;
+            box-shadow:2px 2px 2px 3px  rgba(78, 77, 74,.5);
+        }
+        .todo-list{
+            margin: 0;
+            padding: 0;
+            background: #ebe6d6;
+        }
+
+      .todo-list .todo{
+            display: block;
+            position:relative ;
+            width: 400px;
+            height: 40px;
+            background: #ebe6d6;
+            list-style-type: none;
+            margin:10px 0 ;
+            line-height: 40px;
+            text-align:left;
+            font-size: 18px;
+            border: 1px solid rgb(92, 82, 82);
+            border-radius: 10%;
+        }      
+      .todo .sp{
+            display: block;
+            margin-left: 10px;
+            margin-right: 7px;
+            float: left;
+        }
+        .todo>.la{
+            display:block;
+           height: 40px;
+            width: 250px;
+        }
+        .todo button{
+            cursor: pointer;
+            display:block;
+            position:absolute;
+            width: 40px;
+            height: 20px;
+            padding: 0;
+            border: none;
+            background: transparent;
+
+            font-size: 20px;
+            right: 20px;
+           top: 50%;
+           margin-top:-10px ;
+            float: left;  
+            opacity:0;
+        }
+       .todo button:first-of-type{
+           right: 60px;
+           position: absolute;
+        }
+        .todo-list li button:hover{
+            opacity: 1;
+            color: rgb(134, 25, 6);
+        }
+     li div:hover {
+            opacity:1;
+            color: red;
+            
+
+        }
+        .bottom{
+           
+            display: block;
+            width: 400px;
+            height: 40px;
+            left: 50%;
+            margin-left: -200;
+            margin: 10px auto;
+            
+            font-size: 16px; 
+            
+        }
+        
+
+        
+        .d{
+            position: relative;
+            width: 400px;
+            height:40px ;
+            background: #ebe6d6; 
+            box-shadow:1px -1px 2px 3px inset rgba(78, 77, 74,.5);
+            font-family:cursive;
+            
+        }
+        .d::after{
+            content: "";
+            position: absolute;
+            width: 400px;
+             height: 20px;
+             bottom: -8px;
+             left: 0;
+            background: #ebe6d6; 
+            overflow: hidden;
+            box-shadow:0 0px 0px 3px inset rgba(78, 77, 74,.5);
+            z-index: -1;
+            
+        }
+        
+        .sp2{
+            display: block;
+            margin-left: 10px;
+            float: left;
+            line-height: 40px;
+        }
+        .d>.clear{
+            cursor: pointer;
+            display: block;
+            position: absolute;
+            width: 48px;
+            height: 22px;
+            margin-top: 12px;
+            border: none;
+            padding: 0;
+            background: transparent;
+            color: red;
+            font-size: 20px;
+            line-height: 22px;
+            right: 15px;
+        }
+       .footer{
+        position:absolute;
+        margin: 0px auto 0;
+        color: transparent;
+        font-size: 15px;
+        box-shadow:1px -1px 2px 3px inset rgba(78, 77, 74,.1);
+        text-align: center; 
+       }
+       .footer p{
+           line-height: 1;
+       }
+
+
+
+        
+    </style>
+</head>
+<body>
+<section id="todoapp">
+    <!--v-for 绑定数据生成数据列表
+    v-model双向绑定数据，把表单数据跟输入的数据关联起来
+v-on绑定事件，结合修饰符指令
+审查元素定位-->
+<header class="header">
+<h1>小黑记事本</h1>
+</header>
+<section class="main">
+<input  autofocus="autofocus" autocomplete="off" placeholder="请输入事件" v-model="inputValue" @keyup.enter="add">
+<ul class="todo-list">
+    <li class="todo" v-for="(item,index) in list">
+        <div>
+            <span class="sp">{{index+1}}</span>
+            <label class="la">{{item}}</label>
+<!--数据改变，和数据绑定的元素都会同步改变
+事件可以接收自定义的参数
+splice方法 的使用-->
+            <button  @click="remove(index)" class="bu">×</button>
+            <button @click="add2(index,inputValue)">+</button>
+        </div>
+    </li>
+</ul>
+<footer class="bottom" >
+    <!--统计-->
+    <!--基于数据的开发方式，这里的个数本质是数组的长度“length”-->
+    <!--统计和清空-->
+ <!--隐藏，v-show或者v-if都可以，当数据不为零时显示，数据为0时隐藏,即数组非空-->
+    <div class="d" v-show="list.length!=0">
+    <span  class="sp2">{{list.length}}:items- lfet</span>
+    <!--清空，使数组为空即可-->
+    <button @click="clear" v-if="list.length!=0" class="clear">Clear</button>
+</div>
+</footer>
+<footer class="footer">
+    <p>
+<img src="http://www.itheima.com/images/logo.png">
+</p>
+</footer>
+</section>
+</section>
+
+     <!--开发环境版本，包含了有帮助的命令行警告-->
+     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+var todoapp=new Vue({
+    el:"#todoapp",
+    data:{
+        list:["吃饭饭","睡觉觉","写代码"],
+        index:0,
+        inputValue:"好好学习，天天向上！"
+
+    },
+    methods:{
+add:function(){
+this.list.push(this.inputValue)
+},
+remove:function(index){
+    this.list.splice(index,1)
+},
+add2:function(index,inputValue){
+this.list.splice(index,0,inputValue)
+},
+clear:function(){
+    this.list=[];
+}
+
+    }    
+    
+})
+    </script>
+</body>
+</html>
